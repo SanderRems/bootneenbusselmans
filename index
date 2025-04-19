@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Vrijgezellendag Handboeien Sterktepunten</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 20px;
+      background-color: #f5f5f5;
+    }
+    
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+      background-color: white;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+    
+    h1 {
+      color: #3c4043;
+      border-bottom: 2px solid #4285f4;
+      padding-bottom: 10px;
+      text-align: center;
+    }
+    
+    h2 {
+      color: #4285f4;
+      margin-top: 20px;
+    }
+    
+    .score-display {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 20px 0;
+    }
+    
+    .score {
+      font-size: 64px;
+      font-weight: bold;
+      color: #ea4335;
+      margin: 0 20px;
+      width: 150px;
+      text-align: center;
+    }
+    
+    .btn-container {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+    }
+    
+    button {
+      font-size: 18px;
+      margin: 5px;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    
+    .dec-btn {
+      background-color: #34a853;
+      color: white;
+    }
+    
+    .inc-btn {
+      background-color: #ea4335;
+      color: white;
+    }
+    
+    .reset-btn {
+      background-color: #4285f4;
+      color: white;
+    }
+    
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
+    
+    th, td {
+      padding: 12px;
+      text-align: left;
+      border-bottom: 1px solid #ddd;
+    }
+    
+    th {
+      background-color: #4285f4;
+      color: white;
+    }
+    
+    tr:nth-child(even) {
+      background-color: #f2f2f2;
+    }
+    
+    .btn-apply {
+      background-color: #34a853;
+      color: white;
+      border: none;
+      padding: 5px 10px;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    
+    .log {
+      margin-top: 20px;
+      padding: 10px;
+      background-color: #f2f2f2;
+      border-radius: 4px;
+      max-height: 200px;
+      overflow-y: auto;
+    }
+    
+    .log-entry {
+      margin: 5px 0;
+      padding: 5px;
+      border-bottom: 1px solid #ddd;
+    }
+    
+    .alert {
+      padding: 20px;
+      background-color: #4CAF50;
+      color: white;
+      margin-bottom: 15px;
+      border-radius: 4px;
+      display: none;
+    }
+    
+    @media (max-width: 600px) {
+      .score-display {
+        flex-direction: column;
+      }
+      
+      .btn-container {
+        flex-direction: column;
+      }
+      
+      button {
+        width: 100%;
+        margin: 5px 0;
+      }
+      
+      table {
+        font-size: 14px;
+      }
+      
+      th, td {
+        padding: 8px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Vrijgezellendag - Handboeien Sterktepunten</h1>
+    
+    <div id="alert" class="alert"></div>
+    
+    <div class="score-display">
+      <h2>Huidige Sterkte:</h2>
+      <div id="score" class="score">100</div>
+      <div>
+        <p id="status">Status: Handboeien VAST</p>
+      </div>
+    </div>
+    
+    <div class="btn-container">
+      <button class="dec-btn" onclick="decreaseScore(5)">-5</button>
+      <button class="dec-btn" onclick="decreaseScore(10)">-10</button>
+      <button class="dec-btn" onclick="decreaseScore(15)">-15</button>
+      <button class="inc-btn" onclick="increaseScore(5)">+5</button>
+      <button class="inc-btn" onclick="increaseScore(10)">+10</button>
+      <button class="inc-btn" onclick="increaseScore(15)">+15</button>
+      <button class="reset-btn" onclick="resetScore()">Reset</button>
+    </div>
+    
+    <h2>Activiteiten en Punten</h2>
+    
+    <h3>Scavenger Hunt</h3>
+    <table>
+      <tr>
+        <th>Uitdaging</th>
+        <th>Punten</th>
+        <th>Actie</th>
+      </tr>
+      <tr>
+        <td>Tijdig afronden</td>
+        <td>-30</td>
+        <td><button class="btn-apply" onclick="decreaseScore(30)">Toepassen</button></td>
+      </tr>
+      <tr>
+        <td>Niet tijdig afronden</td>
+        <td>-15</td>
+        <td><button class="btn-apply" onclick="decreaseScore(15)">Toepassen</button></td>
+      </tr>
+      <tr>
+        <td>Locatie binnen tijdslimiet</td>
+        <td>-5</td>
+        <td><button class="btn-apply" onclick="decreaseScore(5)">Toepassen</button></td>
+      </tr>
+      <tr>
+        <td>Extra opdracht succesvol</td>
+        <td>-3</td>
+        <td><button class="btn-apply" onclick="decreaseScore(3)">Toepassen</button></td>
+      </tr>
+      <tr>
+        <td>Foto/video bewijs</td>
+        <td>-2</td>
+        <td><button class="btn-apply" onclick="decreaseScore(2)">Toepassen</button></td>
+      </tr>
+      <tr>
+        <td>Onbekende overtuigen</td>
+        <td>-5</td>
+        <td><button class="btn-apply" onclick="decreaseScore(5)">Toepassen</button></td>
+      </tr>
+    </table>
+    
+    <h3>Whiskybar</h3>
+    <table>
+      <tr>
+        <th>Uitdaging</th>
+        <th>Punten</th>
+        <th>Actie</th>
+      </tr>
+      <tr>
+        <td>Juist geïdentificeerde whisky</td>
+        <td>-5</td>
+        <td><button class="btn-apply" onclick="decreaseScore(5)">Toepassen</button></td>
+      </tr>
+      <tr>
+        <td>Barman overtuigen voor shotje</td>
+        <td>-10</td>
+        <td><button class="btn-apply" onclick="decreaseScore(10)">Toepassen</button></td>
+      </tr>
+    </table>
+    
+    <h3>Darten</h3>
+    <table>
+      <tr>
+        <th>Uitdaging</th>
+        <th>Punten</th>
+        <th>Actie</th>
+      </tr>
+      <tr>
+        <td>Bullseye gooien</td>
+        <td>-10</td>
+        <td><button class="btn-apply" onclick="decreaseScore(10)">Toepassen</button></td>
+      </tr>
+    </table>
+    
+    <h3>Extra Uitdagingen</h3>
+    <table>
+      <tr>
+        <th>Uitdaging</th>
+        <th>Punten</th>
+        <th>Actie</th>
+      </tr>
+      <tr>
+        <td>Kauwgom van straat eten</td>
+        <td>-15</td>
+        <td><button class="btn-apply" onclick="decreaseScore(15)">Toepassen</button></td>
+      </tr>
+      <tr>
+        <td>Onverwachte klap</td>
+        <td>-10</td>
+        <td><button class="btn-apply" onclick="decreaseScore(10)">Toepassen</button></td>
+      </tr>
+      <tr>
+        <td>Schoenen wisselen</td>
+        <td>-5</td>
+        <td><button class="btn-apply" onclick="decreaseScore(5)">Toepassen</button></td>
+      </tr>
+      <tr>
+        <td>Naam van hond raden</td>
+        <td>-10</td>
+        <td><button class="btn-apply" onclick="decreaseScore(10)">Toepassen</button></td>
+      </tr>
+      <tr>
+        <td>Augurk Lady & Vagebond</td>
+        <td>-15</td>
+        <td><button class="btn-apply" onclick="decreaseScore(15)">Toepassen</button></td>
+      </tr>
+      <tr>
+        <td>Vijf personen met kort haar</td>
+        <td>-10</td>
+        <td><button class="btn-apply" onclick="decreaseScore(10)">Toepassen</button></td>
+      </tr>
+      <tr>
+        <td>Willekeurig persoon laten lachen</td>
+        <td>-5</td>
+        <td><button class="btn-apply" onclick="decreaseScore(5)">Toepassen</button></td>
+      </tr>
+    </table>
+    
+    <h3>Strafpunten</h3>
+    <table>
+      <tr>
+        <th>Uitdaging</th>
+        <th>Punten</th>
+        <th>Actie</th>
+      </tr>
+      <tr>
+        <td>Klagen over handboeien</td>
+        <td>+5</td>
+        <td><button class="btn-apply" onclick="increaseScore(5)">Toepassen</button></td>
+      </tr>
+    </table>
+    
+    <h2>Activiteitenlog</h2>
+    <div id="log" class="log"></div>
+  </div>
+
+  <script>
+    let score = 100;
+    const scoreElement = document.getElementById('score');
+    const statusElement = document.getElementById('status');
+    const logElement = document.getElementById('log');
+    const alertElement = document.getElementById('alert');
+    
+    // Load saved score if exists
+    if (localStorage.getItem('vrijgezellenScore')) {
+      score = parseInt(localStorage.getItem('vrijgezellenScore'));
+      updateScore();
+    }
+    
+    function updateScore() {
+      scoreElement.textContent = score;
+      localStorage.setItem('vrijgezellenScore', score);
+      
+      if (score <= 0) {
+        statusElement.textContent = 'Status: Handboeien LOS!';
+        statusElement.style.color = '#34a853';
+        showAlert('🎉 GEFELICITEERD! De handboeien zijn los!', '#34a853');
+      } else {
+        statusElement.textContent = 'Status: Handboeien VAST';
+        statusElement.style.color = '#ea4335';
+      }
+    }
+    
+    function decreaseScore(amount) {
+      const oldScore = score;
+      score = Math.max(0, score - amount);
+      logActivity(`-${amount} punten: Nieuwe sterkte = ${score}`);
+      
+      if (oldScore > 0 && score <= 0) {
+        // Reaching 0 for the first time
+        showAlert('🎉 GEFELICITEERD! De handboeien zijn los!', '#34a853');
+      }
+      
+      updateScore();
+    }
+    
+    function increaseScore(amount) {
+      const oldScore = score;
+      score = score + amount;
+      logActivity(`+${amount} punten: Nieuwe sterkte = ${score}`);
+      
+      if (oldScore <= 0 && score > 0) {
+        // Going back above 0
+        showAlert('😱 De handboeien zitten weer vast!', '#ea4335');
+      }
+      
+      updateScore();
+    }
+    
+    function resetScore() {
+      score = 100;
+      logActivity('Score reset naar 100');
+      updateScore();
+    }
+    
+    function logActivity(message) {
+      const now = new Date();
+      const timeString = now.toLocaleTimeString();
+      const logEntryElement = document.createElement('div');
+      logEntryElement.className = 'log-entry';
+      logEntryElement.textContent = `${timeString}: ${message}`;
+      logElement.prepend(logEntryElement);
+      
+      // Save to local storage (latest 20 entries)
+      let logHistory = JSON.parse(localStorage.getItem('vrijgezellenLog') || '[]');
+      logHistory.unshift({time: timeString, message: message});
+      if (logHistory.length > 20) logHistory = logHistory.slice(0, 20);
+      localStorage.setItem('vrijgezellenLog', JSON.stringify(logHistory));
+    }
+    
+    function showAlert(message, color) {
+      alertElement.textContent = message;
+      alertElement.style.backgroundColor = color;
+      alertElement.style.display = 'block';
+      
+      setTimeout(() => {
+        alertElement.style.display = 'none';
+      }, 5000);
+    }
+    
+    // Load previous log entries if any
+    function loadLogHistory() {
+      const logHistory = JSON.parse(localStorage.getItem('vrijgezellenLog') || '[]');
+      logHistory.forEach(entry => {
+        const logEntryElement = document.createElement('div');
+        logEntryElement.className = 'log-entry';
+        logEntryElement.textContent = `${entry.time}: ${entry.message}`;
+        logElement.appendChild(logEntryElement);
+      });
+    }
+    
+    // Initialize
+    updateScore();
+    loadLogHistory();
+    if (!localStorage.getItem('vrijgezellenLogStarted')) {
+      logActivity('Vrijgezellendag gestart! Sterkte = 100');
+      localStorage.setItem('vrijgezellenLogStarted', 'true');
+    }
+  </script>
+</body>
+</html>
